@@ -4,11 +4,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/gsb_logo"
+        android:icon="@drawable/gsb_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/gsb_logo"
+        android:roundIcon="@drawable/gsb_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.RV">
+        <activity android:name=".RechercheRvActivity"></activity>
+        <activity android:name=".SaisieRvActivity" />
+        <activity android:name=".MenuRVActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

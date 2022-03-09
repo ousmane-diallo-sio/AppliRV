@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import fr.gsb.rv.entites.Visiteur;
+import fr.gsb.rv.modeles.ModeleGsb;
+import fr.gsb.rv.technique.Session;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnValider;
     Button btnAnnuler;
 
+    Visiteur visiteur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         this.etMdp = findViewById(R.id.etMdp);
         this.btnValider = findViewById(R.id.btnValider);
         this.btnAnnuler = findViewById(R.id.btnAnnuler);
-
 
         this.btnAnnuler.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,12 +56,20 @@ public class MainActivity extends AppCompatActivity {
         Log.i("GSB_MAIN_ACTIVITY", id);
         Log.i("GSB_MAIN_ACTIVITY", mdp);
 
-        if(id.equals("test") && mdp.equals("mdp")){
-            this.tvErreur.setVisibility(View.INVISIBLE);
+        ModeleGsb modeleGsb = ModeleGsb.getInstance();
+        this.visiteur = modeleGsb.seConnecter(id, mdp);
+
+        if( this.visiteur != null ){
+            Session.ouvrir(this.visiteur);
+            Session session = Session.getSession();
+            Log.i("GSB_MAIN_ACTIVITY", this.visiteur.toString());
+
             this.btnValider.setEnabled(false);
             this.btnAnnuler.setEnabled(false);
             Toast.makeText(this, "Connexion réussie", Toast.LENGTH_LONG).show();
             Log.i("GSB_MAIN_ACTIVITY", "seConnecter() : Connexion Ok (null null).");
+            Intent intent = new Intent(MainActivity.this, MenuRVActivity.class);
+            startActivity(intent);
             return true;
         }
         else {
