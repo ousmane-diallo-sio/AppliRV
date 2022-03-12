@@ -11,11 +11,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/gsb_logo"
+            android:layout_marginTop="50dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="100dp"
+            android:layout_marginHorizontal="20dp">
 
             <TextView
                 android:id="@+id/tvErreur"
@@ -28,30 +35,83 @@
                 android:layout_height="wrap_content"
                 android:text="Matricule:" />
 
+
             <EditText
                 android:id="@+id/etMatricule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Saisissez votre matricule"
                 android:inputType="text"
-                android:text="a131"/>
+                android:background="@null"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gris" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mot de passe:"/>
 
-            <EditText
-                android:id="@+id/etMdp"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Saisissez votre mot de passe"
-                android:inputType="textPassword"
-                android:text="azerty"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/etMdp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:hint="Saisissez votre mot de passe"
+                    android:inputType="textPassword"
+                    android:background="@null"
+                    />
+
+                <ImageView
+                    android:id="@+id/btnAfficherMdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/display_on"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gris" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginVertical="15dp"
+                android:onClick="checkCbLogin"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:selectableItemBackground">
+
+                <CheckBox
+                    android:id="@+id/cbLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Se souvenir de moi"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
 
                 <Button
                     android:id="@+id/btnValider"

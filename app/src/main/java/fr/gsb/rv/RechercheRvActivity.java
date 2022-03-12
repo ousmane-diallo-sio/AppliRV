@@ -3,12 +3,18 @@ package fr.gsb.rv;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -19,10 +25,14 @@ import java.util.List;
 public class RechercheRvActivity extends AppCompatActivity {
 
     String logTag;
-    TableLayout tlMois;
-    TableLayout tlAnnee;
 
+    Spinner spinnerMois;
+    Spinner spinnerAnnee;
 
+    String moisCourant;
+    String anneeCourante;
+
+    @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,36 +41,57 @@ public class RechercheRvActivity extends AppCompatActivity {
 
         this.logTag = "GSB_RECHERCHE_ACTIVITY";
 
-        tlMois = findViewById(R.id.tlMois);
         String[] mois = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
-        for( int i=0; i < mois.length; i++ ){
-            TextView tv = new TextView(this);
-            tv.setText(mois[i]);
-            tv.setWidth(tlMois.getWidth());
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            tv.setTextSize(30);
-            tlMois.addView(tv);
-        }
 
-        tlAnnee = findViewById(R.id.tlAnnee);
-        int anneeCourante = LocalDate.now().getYear();
+        this.spinnerMois = findViewById(R.id.spinnerMois);
+        ArrayAdapter<String> moisArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mois);
+        moisArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.spinnerMois.setAdapter(moisArrayAdapter);
+        this.spinnerMois.setSelection(LocalDate.now().getMonthValue() -1);
+
+        this.spinnerMois.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                moisCourant = mois[position];
+                Log.i(logTag, "Mois sélectionné : " + moisCourant);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        this.spinnerAnnee = findViewById(R.id.spinnerAnnee);
+
+        int anneeActuelle = LocalDate.now().getYear();
         List<String> annees = new ArrayList<String>();
-        Log.i(this.logTag, "Annee Courante : " + anneeCourante);
+        Log.i(this.logTag, "Annee Courante : " + anneeActuelle);
         for(int i=0; i<5; i++){
-            annees.add( String.valueOf( anneeCourante - i ) );
-            Log.i(this.logTag, "Année n°" + i + " : " + String.valueOf( anneeCourante - i ));
+            annees.add( String.valueOf( anneeActuelle - i ) );
+            Log.i(this.logTag, "Année n°" + i + " : " + String.valueOf( anneeActuelle - i ));
         }
 
-        for(int i=0; i<annees.size(); i++){
-            TextView tv = new TextView(this);
-            tv.setText(annees.get(i));
-            tv.setWidth(tlAnnee.getWidth());
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            tv.setTextSize(30);
-            tlAnnee.addView(tv);
-        }
+        ArrayAdapter<String> anneeArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, annees);
+        anneeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.spinnerAnnee.setAdapter(anneeArrayAdapter);
 
+        this.spinnerAnnee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                anneeCourante = annees.get(position);
+                Log.i(logTag, "Annee sélectionnée : " + anneeCourante);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
     }
+
+    public void validerMoisEtAnnee(View view){
+        Toast.makeText(this, "Mois : " + this.spinnerMois.getSelectedItem().toString() + ", Annee : " + this.spinnerAnnee.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+    }
+
 }
