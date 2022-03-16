@@ -8,6 +8,10 @@ public class Visiteur {
     private String prenom;
 
 
+    public Visiteur(){
+
+    }
+
     public Visiteur(String matricule, String mdp, String nom, String prenom){
         this.matricule = matricule;
         this.mdp = mdp;

@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -91,7 +92,12 @@ public class RechercheRvActivity extends AppCompatActivity {
     }
 
     public void validerMoisEtAnnee(View view){
-        Toast.makeText(this, "Mois : " + this.spinnerMois.getSelectedItem().toString() + ", Annee : " + this.spinnerAnnee.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, ListeRvActivity.class);
+        Bundle paquet = new Bundle();
+        paquet.putString("mois", this.spinnerMois.getSelectedItem().toString());
+        paquet.putString("annee", this.spinnerAnnee.getSelectedItem().toString());
+        intent.putExtras(paquet);
+        startActivity(intent);
     }
 
 }

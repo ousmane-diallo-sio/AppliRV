@@ -2,14 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.gsb.rv">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/gsb_logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/gsb_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RV">
-        <activity android:name=".RechercheRvActivity"></activity>
+        android:theme="@style/Theme.RV"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ListeRvActivity"></activity>
+        <activity android:name=".RechercheRvActivity" />
         <activity android:name=".SaisieRvActivity" />
         <activity android:name=".MenuRVActivity" />
         <activity android:name=".MainActivity">
