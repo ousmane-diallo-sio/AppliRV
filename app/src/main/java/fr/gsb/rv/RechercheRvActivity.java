@@ -21,15 +21,22 @@ import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RechercheRvActivity extends AppCompatActivity {
 
     String logTag;
 
+    String[] mois = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
+
+    Map<String, String> listeMois = new HashMap<String, String>();
+
     Spinner spinnerMois;
     Spinner spinnerAnnee;
 
+    String numMoisCourant;
     String moisCourant;
     String anneeCourante;
 
@@ -42,8 +49,6 @@ public class RechercheRvActivity extends AppCompatActivity {
 
         this.logTag = "GSB_RECHERCHE_ACTIVITY";
 
-        String[] mois = {"Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
-
         this.spinnerMois = findViewById(R.id.spinnerMois);
         ArrayAdapter<String> moisArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mois);
         moisArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -54,7 +59,13 @@ public class RechercheRvActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 moisCourant = mois[position];
+                String before = "";
+                if(position < 10){
+                    before = "0";
+                }
+                numMoisCourant = String.valueOf(before + (position +1));
                 Log.i(logTag, "Mois sélectionné : " + moisCourant);
+                Log.i(logTag, "Num mois sélectionné : " + numMoisCourant);
             }
 
             @Override
@@ -67,10 +78,10 @@ public class RechercheRvActivity extends AppCompatActivity {
 
         int anneeActuelle = LocalDate.now().getYear();
         List<String> annees = new ArrayList<String>();
-        Log.i(this.logTag, "Annee Courante : " + anneeActuelle);
+        Log.i(logTag, "Annee Courante : " + anneeActuelle);
         for(int i=0; i<5; i++){
             annees.add( String.valueOf( anneeActuelle - i ) );
-            Log.i(this.logTag, "Année n°" + i + " : " + String.valueOf( anneeActuelle - i ));
+            Log.i(logTag, "Année n°" + i + " : " + String.valueOf( anneeActuelle - i ));
         }
 
         ArrayAdapter<String> anneeArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, annees);
@@ -96,6 +107,7 @@ public class RechercheRvActivity extends AppCompatActivity {
         Bundle paquet = new Bundle();
         paquet.putString("mois", this.spinnerMois.getSelectedItem().toString());
         paquet.putString("annee", this.spinnerAnnee.getSelectedItem().toString());
+        paquet.putString("numMois", this.numMoisCourant);
         intent.putExtras(paquet);
         startActivity(intent);
     }
