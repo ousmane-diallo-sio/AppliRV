@@ -7,49 +7,45 @@
     tools:context=".ListeRvActivity">
 
     <LinearLayout
+        android:id="@+id/ltContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Afficher la liste des rapports dans la listeView"/>
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="20dp"
+            android:gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Mois : "/>
-            <TextView
-                android:id="@+id/tvMois"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="0dp"/>
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="Date visite"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Annee : "/>
-
-            <TextView
-                android:id="@+id/tvAnnee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_weight="1"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="Nom praticien"/>
 
         </LinearLayout>
 
         <ListView
             android:id="@+id/lvRapports"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            />
 
 
     </LinearLayout>

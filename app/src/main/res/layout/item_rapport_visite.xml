@@ -9,29 +9,44 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/tvItemNumRapport"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Num Rapport  "/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:backgroundTint="@color/white">
 
-        <TextView
-            android:id="@+id/tvItemNomPraticien"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nom praticien  "/>
+            <TextView
+                android:id="@+id/tvItemDateVisite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:paddingVertical="10dp"
+                android:gravity="center"
+                android:text="[Données]"/>
 
-        <TextView
-            android:id="@+id/tvItemVillePraticien"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ville praticien  "/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvItemDateVisite"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Date Visite"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvItemNomPraticien"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:paddingVertical="10dp"
+                android:gravity="center"
+                android:text="[Données]"/>
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 

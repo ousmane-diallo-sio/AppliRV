@@ -10,5 +10,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="rouge">#ff0000</color>
     <color name="gris">#AAAAAA</color>
+    <color name="grisClair">#DDDDDD</color>
     <color name="amberYellow">#FFC107</color>
 </resources>

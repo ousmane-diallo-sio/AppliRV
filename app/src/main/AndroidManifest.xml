@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RV"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ListeRvActivity"></activity>
+        <activity android:name=".VisuRvActivity"></activity>
+        <activity android:name=".ListeRvActivity" />
         <activity android:name=".RechercheRvActivity" />
         <activity android:name=".SaisieRvActivity" />
         <activity android:name=".MenuRVActivity" />

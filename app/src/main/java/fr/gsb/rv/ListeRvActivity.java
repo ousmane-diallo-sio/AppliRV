@@ -4,11 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,13 +36,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.gsb.rv.entites.RapportVisite;
+import fr.gsb.rv.technique.Session;
 
 public class ListeRvActivity extends AppCompatActivity {
 
     String logTag;
 
-    TextView tvMois;
-    TextView tvAnnee;
+    LinearLayout ltContainer;
 
     String moisSelectionne;
     String anneeSelectionne;
@@ -42,37 +50,46 @@ public class ListeRvActivity extends AppCompatActivity {
 
     ListView lvRapports;
 
-    List<RapportVisite> listeRapports;
+    List<RapportVisite> listeRapports = new ArrayList<RapportVisite>();
+
 
     class ItemRapportVisiteAdapter extends ArrayAdapter<RapportVisite>{
 
-        public ItemRapportVisiteAdapter(){
+        ItemRapportVisiteAdapter(){
             super(
                     ListeRvActivity.this,
                     R.layout.item_rapport_visite,
-                    R.id.tvItemNumRapport,
+                    R.id.tvItemDateVisite,
                     listeRapports
             );
         }
 
+        @SuppressLint("ResourceAsColor")
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View vItem = super.getView(position, convertView, parent);
 
-            TextView tvItemNumRapport = vItem.findViewById(R.id.tvItemNumRapport);
             TextView tvItemNomPraticien = vItem.findViewById(R.id.tvItemNomPraticien);
-            TextView tvItemVillePraticien = vItem.findViewById(R.id.tvItemVillePraticien);
             TextView tvItemDateVisite = vItem.findViewById(R.id.tvItemDateVisite);
 
-            tvItemNumRapport.setText(listeRapports.get(position).getRap_num());
-            tvItemNomPraticien.setText(listeRapports.get(position).getPra_nom());
-            tvItemVillePraticien.setText(listeRapports.get(position).getPra_ville());
-            tvItemDateVisite.setText(listeRapports.get(position).getRap_date_visite());
+            try {
+
+                int bgColor = position % 2 == 0 ? R.color.grisClair : R.color.white;
+
+                tvItemNomPraticien.setText(listeRapports.get(position).getPra_nom());
+                tvItemNomPraticien.setBackgroundResource(bgColor);
+
+                tvItemDateVisite.setText(listeRapports.get(position).getRap_date_visite());
+                tvItemDateVisite.setBackgroundResource(bgColor);
+            } catch (Exception e){
+                Log.e(logTag, e.getMessage());
+            }
 
             return vItem;
         }
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,27 +104,16 @@ public class ListeRvActivity extends AppCompatActivity {
         anneeSelectionne = paquet.getString("annee");
         numMoisSelectionne = paquet.getString("numMois");
 
-        this.tvMois = findViewById(R.id.tvMois);
-        this.tvAnnee = findViewById(R.id.tvAnnee);
+        this.ltContainer = findViewById(R.id.ltContainer);
         this.lvRapports = findViewById(R.id.lvRapports);
 
-        this.tvMois.setText(this.moisSelectionne);
-        this.tvAnnee.setText(this.anneeSelectionne);
 
         this.getRapports();
-
-        ItemRapportVisiteAdapter adapter = new ItemRapportVisiteAdapter();
-        lvRapports.setAdapter(adapter);
-        lvRapports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(logTag, v.toString());
-            }
-        });
     }
 
+
     public void getRapports(){
-        String url = String.format("http://172.20.50.19:5000/rapports/a131/%s/%s", numMoisSelectionne, anneeSelectionne);
+        String url = String.format("http://172.20.50.19:5000/rapports/%s/%s/%s", Session.getLeVisiteur().getMatricule(), numMoisSelectionne, anneeSelectionne);
         Log.i(logTag, "Requete HTTP effectuée : " + url);
 
         Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>() {
@@ -128,15 +134,37 @@ public class ListeRvActivity extends AppCompatActivity {
                         rapportVisite.setPra_prenom(element.getString("pra_prenom"));
                         rapportVisite.setPra_ville(element.getString("pra_ville"));
 
-                        listeRapports = new ArrayList<RapportVisite>();
                         listeRapports.add(rapportVisite);
 
-                        Log.i(logTag, "Chargement d'un nouveau rapport... \n : " + listeRapports.get(i));
+                        Log.i(logTag, "Chargement d'un nouveau rapport... (" + i + ") \n : " + listeRapports.get(i));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
+                if(listeRapports.size() != 0){
+                    ItemRapportVisiteAdapter adapter = new ItemRapportVisiteAdapter();
+
+                    lvRapports.setAdapter(adapter);
+                    lvRapports.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Log.i(logTag, "clique détecté");
+                            Intent intent = new Intent(ListeRvActivity.this, VisuRvActivity.class);
+                            Bundle paquet = new Bundle();
+                            RapportVisite rapportCourant = listeRapports.get(position);
+                            paquet.putInt("rap_num", rapportCourant.getRap_num());
+                            paquet.putString("rap_bilan", rapportCourant.getRap_bilan());
+                            paquet.putString("rap_cp", rapportCourant.getPra_cp());
+                            paquet.putString("pra_nom", rapportCourant.getPra_nom());
+                            paquet.putString("rap_date_visite", rapportCourant.getRap_date_visite());
+                            paquet.putString("pra_prenom", rapportCourant.getPra_prenom());
+                            paquet.putString("pra_ville", rapportCourant.getPra_ville());
+                            intent.putExtras(paquet);
+                            startActivity(intent);
+                        }
+                    });
+                }
             }
 
         };
@@ -145,6 +173,11 @@ public class ListeRvActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(logTag, "Erreur HTTP : " + error.toString());
+                TextView txt = new TextView(ListeRvActivity.this);
+                txt.setText("Aucun résultat...");
+                txt.setGravity(Gravity.CENTER);
+                txt.setTextSize(35);
+                ltContainer.addView(txt);
             }
         };
 

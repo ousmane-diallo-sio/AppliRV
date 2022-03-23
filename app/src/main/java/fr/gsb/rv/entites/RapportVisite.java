@@ -85,14 +85,6 @@ public class RapportVisite {
 
     @Override
     public String toString() {
-        return "RapportVisite{" +
-                "rap_bilan='" + rap_bilan + '\'' +
-                ", pra_cp='" + pra_cp + '\'' +
-                ", rap_num=" + rap_num +
-                ", pra_nom='" + pra_nom + '\'' +
-                ", rap_date_visite='" + rap_date_visite + '\'' +
-                ", pra_prenom='" + pra_prenom + '\'' +
-                ", pra_ville='" + pra_ville + '\'' +
-                '}';
+        return this.rap_date_visite + " " + this.pra_nom;
     }
 }
