@@ -26,7 +26,11 @@ public class MenuRVActivity extends AppCompatActivity {
         btnSaisir = findViewById(R.id.btnSaisir);
         btnConsulter = findViewById(R.id.btnConsulter);
 
-        tvBienvenue.setText( tvBienvenue.getText() + " " + Session.getLeVisiteur().getPrenom() );
+        try {
+            tvBienvenue.setText( tvBienvenue.getText() + " " + Session.getLeVisiteur().getPrenom() );
+        } catch (Exception e){
+
+        }
 
         btnSaisir.setOnClickListener(new View.OnClickListener() {
             @Override

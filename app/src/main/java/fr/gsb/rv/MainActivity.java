@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
 
                     MainActivity.this.btnValider.setEnabled(false);
                     MainActivity.this.btnAnnuler.setEnabled(false);
-                    Toast.makeText(MainActivity.this, "Connexion réussie", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(MainActivity.this, MenuRVActivity.class);
                     startActivity(intent);
                 }

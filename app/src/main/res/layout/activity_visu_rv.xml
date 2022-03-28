@@ -14,11 +14,65 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Liste des données récupérée"/>
+            android:layout_gravity="center"
+            android:textSize="40dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Rapport de visite : "/>
 
         <Space
             android:layout_width="wrap_content"
             android:layout_height="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvRapNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Numéro du rapport : "/>
+
+            <TextView
+                android:id="@+id/tvRapDateVisite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date de la visite : "/>
+
+            <TextView
+                android:id="@+id/tvPraNom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nom du praticien : "/>
+
+            <TextView
+                android:id="@+id/tvPraPrenom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prénom du praticien : "/>
+
+            <TextView
+                android:id="@+id/tvPraVille"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ville du praticien : "/>
+
+
+            <TextView
+                android:id="@+id/tvPraCp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Code postal : "/>
+
+            <TextView
+                android:id="@+id/tvRapBilan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bilan : "/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvDonnees"

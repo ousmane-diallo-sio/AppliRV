@@ -11,21 +11,100 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
     <TextView
+        android:id="@+id/tvDateVisite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SaisieRvActivity"/>
+        android:text="Date de la visite : "/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Modifier la date"
+        android:onClick="selectDateVisite"/>
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Formulaire de saisie (Saisir le nombre d'échantillions)"/>
+        android:text="Praticien : "/>
 
-    <EditText
+    <Spinner
+        android:id="@+id/spPraticien"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="Saisir le nombre d'échantillions"/>
+        android:spinnerMode="dialog"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Motif :"/>
+
+    <Spinner
+        android:id="@+id/spMotif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog"/>
+
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Bilan : "/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grisClair"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="5dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minLines="3"
+            android:maxLines="7"
+            android:background="@null"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Coefficient de confiance : "/>
+
+    <Spinner
+        android:id="@+id/spCoefConfiance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valider"
+            android:onClick="validerSaisie"/>
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Annuler"
+            android:onClick="annuler"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>
 

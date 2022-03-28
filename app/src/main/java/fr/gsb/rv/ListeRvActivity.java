@@ -33,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import fr.gsb.rv.entites.RapportVisite;
@@ -145,6 +147,10 @@ public class ListeRvActivity extends AppCompatActivity {
                 if(listeRapports.size() != 0){
                     ItemRapportVisiteAdapter adapter = new ItemRapportVisiteAdapter();
 
+                    Collections.reverse(listeRapports);
+                    synchronized (listeRapports){
+                        listeRapports.notify();
+                    }
                     lvRapports.setAdapter(adapter);
                     lvRapports.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -155,7 +161,7 @@ public class ListeRvActivity extends AppCompatActivity {
                             RapportVisite rapportCourant = listeRapports.get(position);
                             paquet.putInt("rap_num", rapportCourant.getRap_num());
                             paquet.putString("rap_bilan", rapportCourant.getRap_bilan());
-                            paquet.putString("rap_cp", rapportCourant.getPra_cp());
+                            paquet.putString("pra_cp", rapportCourant.getPra_cp());
                             paquet.putString("pra_nom", rapportCourant.getPra_nom());
                             paquet.putString("rap_date_visite", rapportCourant.getRap_date_visite());
                             paquet.putString("pra_prenom", rapportCourant.getPra_prenom());
