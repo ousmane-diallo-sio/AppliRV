@@ -9,13 +9,13 @@ public class RapportVisite {
     String rap_date_visite;
     String pra_prenom;
     String pra_ville;
-
+    int rap_coef_confiance;
 
     public RapportVisite(){
 
     }
 
-    public RapportVisite(int rap_num, String rap_bilan, String pra_cp, String pra_nom, String rap_date_visite, String pra_prenom, String pra_ville){
+    public RapportVisite(int rap_num, String rap_bilan, String pra_cp, String pra_nom, String rap_date_visite, String pra_prenom, String pra_ville, int rap_coef_confiance){
         this.rap_num = rap_num;
         this.rap_bilan = rap_bilan;
         this.pra_cp = pra_cp;
@@ -23,6 +23,7 @@ public class RapportVisite {
         this.rap_date_visite = rap_date_visite;
         this.pra_prenom = pra_prenom;
         this.pra_ville = pra_ville;
+        this.rap_coef_confiance = rap_coef_confiance;
     }
 
 
@@ -80,6 +81,14 @@ public class RapportVisite {
 
     public void setPra_ville(String pra_ville) {
         this.pra_ville = pra_ville;
+    }
+
+    public int getRap_coef_confiance() {
+        return rap_coef_confiance;
+    }
+
+    public void setRap_coef_confiance(int rap_coef_confiance) {
+        this.rap_coef_confiance = rap_coef_confiance;
     }
 
 

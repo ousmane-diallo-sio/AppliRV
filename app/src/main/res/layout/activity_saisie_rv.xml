@@ -6,106 +6,132 @@
     android:layout_height="match_parent"
     tools:context=".SaisieRvActivity">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-
-    <TextView
-        android:id="@+id/tvDateVisite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date de la visite : "/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Modifier la date"
-        android:onClick="selectDateVisite"/>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Praticien : "/>
-
-    <Spinner
-        android:id="@+id/spPraticien"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dialog"/>
+        android:layout_height="wrap_content">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Motif :"/>
-
-    <Spinner
-        android:id="@+id/spMotif"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dialog"/>
-
-
-   <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="Bilan : "/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grisClair"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginVertical="5dp">
-
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minLines="3"
-            android:maxLines="7"
-            android:background="@null"/>
+            android:orientation="vertical">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date de la visite : "/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Coefficient de confiance : "/>
+                    <TextView
+                        android:id="@+id/tvDateVisite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
 
-    <Spinner
-        android:id="@+id/spCoefConfiance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dialog"/>
+                </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Valider"
-            android:onClick="validerSaisie"/>
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Annuler"
-            android:onClick="annuler"/>
-
-    </LinearLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Modifier la date"
+                    android:onClick="selectDateVisite"
+                    android:backgroundTint="@color/black2"/>
 
 
-</LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Praticien : "/>
+
+                <Spinner
+                    android:id="@+id/spPraticien"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Motif :"/>
+
+                <Spinner
+                    android:id="@+id/spMotif"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bilan : "/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grisClair"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp">
+
+                    <EditText
+                        android:id="@+id/etBilan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="100dp"
+                        android:maxHeight="150dp"
+                        android:background="@null"
+                        android:inputType="text|textMultiLine"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Saisir échantillons offerts"
+                    android:backgroundTint="@color/black2"
+                    android:onClick="saisirEchantillonsOfferts"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Coefficient de confiance : "/>
+
+                <Spinner
+                    android:id="@+id/spCoefConfiance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Valider"
+                        android:onClick="validerSaisie"/>
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"/>
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Annuler"
+                        android:onClick="annuler"/>
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+</ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

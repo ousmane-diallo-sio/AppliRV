@@ -14,6 +14,13 @@ public class Praticien {
     public Praticien() {
     }
 
+    public Praticien(int pra_num, String pra_nom, String pra_prenom, String pra_ville) {
+        this.pra_num = pra_num;
+        this.pra_nom = pra_nom;
+        this.pra_prenom = pra_prenom;
+        this.pra_ville = pra_ville;
+    }
+
     public Praticien(int pra_num, String pra_nom, String pra_prenom, String pra_adresse, String pra_cp, String pra_ville, double pra_coefnotoriete, String typ_code) {
         this.pra_num = pra_num;
         this.pra_nom = pra_nom;
@@ -91,15 +98,6 @@ public class Praticien {
 
     @Override
     public String toString() {
-        return "Praticien{" +
-                "pra_num=" + pra_num +
-                ", pra_nom='" + pra_nom + '\'' +
-                ", pra_prenom='" + pra_prenom + '\'' +
-                ", pra_adresse='" + pra_adresse + '\'' +
-                ", pra_cp='" + pra_cp + '\'' +
-                ", pra_ville='" + pra_ville + '\'' +
-                ", pra_coefnotoriete=" + pra_coefnotoriete +
-                ", typ_code='" + typ_code + '\'' +
-                '}';
+        return this.pra_nom.toUpperCase() + " " + this.pra_prenom;
     }
 }

@@ -135,6 +135,7 @@ public class ListeRvActivity extends AppCompatActivity {
                         rapportVisite.setRap_date_visite(element.getString("rap_date_visite"));
                         rapportVisite.setPra_prenom(element.getString("pra_prenom"));
                         rapportVisite.setPra_ville(element.getString("pra_ville"));
+                        rapportVisite.setRap_coef_confiance(element.getInt("rap_coef_confiance"));
 
                         listeRapports.add(rapportVisite);
 
@@ -166,6 +167,7 @@ public class ListeRvActivity extends AppCompatActivity {
                             paquet.putString("rap_date_visite", rapportCourant.getRap_date_visite());
                             paquet.putString("pra_prenom", rapportCourant.getPra_prenom());
                             paquet.putString("pra_ville", rapportCourant.getPra_ville());
+                            paquet.putInt("rap_coef_confiance", rapportCourant.getRap_coef_confiance());
                             intent.putExtras(paquet);
                             startActivity(intent);
                         }

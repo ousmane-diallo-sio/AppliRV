@@ -67,6 +67,12 @@
                 android:text="Code postal : "/>
 
             <TextView
+                android:id="@+id/tvCoefConfiance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Coefficient de confiance : "/>
+
+            <TextView
                 android:id="@+id/tvRapBilan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

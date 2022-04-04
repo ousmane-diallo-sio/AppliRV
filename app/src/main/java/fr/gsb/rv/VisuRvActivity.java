@@ -16,6 +16,7 @@ public class VisuRvActivity extends AppCompatActivity {
     String rap_date_visite;
     String pra_prenom;
     String pra_ville;
+    int rap_coef_confiance;
 
     TextView tvRapNum;
     TextView tvRapBilan;
@@ -24,6 +25,7 @@ public class VisuRvActivity extends AppCompatActivity {
     TextView tvRapDateVisite;
     TextView tvPraPrenom;
     TextView tvPraVille;
+    TextView tvCoefConfiance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class VisuRvActivity extends AppCompatActivity {
         rap_date_visite = paquet.getString("rap_date_visite");
         pra_prenom = paquet.getString("pra_prenom");
         pra_ville = paquet.getString("pra_ville");
+        rap_coef_confiance = paquet.getInt("rap_coef_confiance");
 
         tvRapNum = findViewById(R.id.tvRapNum);
         tvRapBilan = findViewById(R.id.tvRapBilan);
@@ -46,6 +49,7 @@ public class VisuRvActivity extends AppCompatActivity {
         tvRapDateVisite = findViewById(R.id.tvRapDateVisite);
         tvPraPrenom = findViewById(R.id.tvPraPrenom);
         tvPraVille = findViewById(R.id.tvPraVille);
+        tvCoefConfiance = findViewById(R.id.tvCoefConfiance);
 
 
         tvRapNum.setText(tvRapNum.getText() + Integer.toString(rap_num));
@@ -55,6 +59,7 @@ public class VisuRvActivity extends AppCompatActivity {
         tvRapDateVisite.setText(tvRapDateVisite.getText() + rap_date_visite);
         tvPraPrenom.setText(tvPraPrenom.getText() + pra_prenom);
         tvPraVille.setText(tvPraVille.getText() + pra_ville);
+        tvCoefConfiance.setText(tvCoefConfiance.getText() + Integer.toString(rap_coef_confiance));
 
     }
 }

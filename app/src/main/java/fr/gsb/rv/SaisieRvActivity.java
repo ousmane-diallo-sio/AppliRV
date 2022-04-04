@@ -9,15 +9,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,8 +32,10 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.gsb.rv.entites.Praticien;
+import fr.gsb.rv.technique.Session;
 
 public class SaisieRvActivity extends AppCompatActivity {
 
@@ -37,32 +46,79 @@ public class SaisieRvActivity extends AppCompatActivity {
     Spinner spPraticen;
     Spinner spMotif;
     Spinner spCoefConfiance;
+    EditText etBilan;
+
+    String dateSelect;
+    int praticienSelect;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saisie_rv);
-        logTag = "GSB_SAISIE_ACIVITY";
+        this.logTag = "GSB_SAISIE_ACTIVITY";
 
         tvDateVisite = findViewById(R.id.tvDateVisite);
         spPraticen = findViewById(R.id.spPraticien);
         spMotif = findViewById(R.id.spMotif);
         spCoefConfiance = findViewById(R.id.spCoefConfiance);
+        etBilan = findViewById(R.id.etBilan);
 
         ecouteurDate = new DatePickerDialog.OnDateSetListener(){
-
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String dateSelect = String.format(
+                dateSelect = String.format(
                         "%02d/%02d/%04d",
                         dayOfMonth,
                         month +1,
                         year
                 );
-                tvDateVisite.setText( tvDateVisite.getText() + dateSelect );
+                tvDateVisite.setText( dateSelect );
             }
         };
+
+        String[] motifs = {"Actualisation", "Périodicité", "Sollicitation praticien"};
+
+        ArrayAdapter<String> motifArrayAdapter = new ArrayAdapter<String>(SaisieRvActivity.this, android.R.layout.simple_spinner_item, motifs);
+        motifArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spMotif.setAdapter(motifArrayAdapter);
+
+        spMotif.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(logTag, "Clique détécté sur la liste des motifs");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayList<Integer> coefsConfiance = new ArrayList<Integer>();
+        for(int i=1; i<=5; i++){
+            coefsConfiance.add(i);
+        }
+
+        ArrayAdapter<Integer> coefConfianceArrayAdapter = new ArrayAdapter<Integer>(SaisieRvActivity.this, android.R.layout.simple_spinner_item, coefsConfiance);
+        coefConfianceArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCoefConfiance.setAdapter(coefConfianceArrayAdapter);
+        spCoefConfiance.setSelection(4);
+
+        spMotif.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(logTag, "Clique détécté sur la liste des coef confiance");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        this.getPraticiens();
+
     }
 
 
@@ -78,8 +134,10 @@ public class SaisieRvActivity extends AppCompatActivity {
 
     }
 
-    public Praticien getPraticiens(){
+    public ArrayList<Praticien> getPraticiens(){
         ArrayList<Praticien> listePraticiens = new ArrayList<Praticien>();
+        String url = "http://172.20.50.19:5000/praticiens";
+
         Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>(){
 
             @Override
@@ -89,14 +147,10 @@ public class SaisieRvActivity extends AppCompatActivity {
                         JSONObject reponse = response.getJSONObject(i);
 
                         Praticien praticien = new Praticien(
-                            reponse.getInt("pra_num"),
+                                reponse.getInt("pra_num"),
                                 reponse.getString("pra_nom"),
                                 reponse.getString("pra_prenom"),
-                                reponse.getString("pra_adresse"),
-                                reponse.getString("pra_cp"),
-                                reponse.getString("pra_ville"),
-                                reponse.getDouble("pra_coefnotoriete"),
-                                reponse.getString("typ_code")
+                                reponse.getString("pra_ville")
                         );
 
                         listePraticiens.add(praticien);
@@ -105,24 +159,91 @@ public class SaisieRvActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+
+                ArrayAdapter<Praticien> praticienArrayAdapter = new ArrayAdapter<Praticien>(SaisieRvActivity.this, android.R.layout.simple_spinner_item, listePraticiens);
+                praticienArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spPraticen.setAdapter(praticienArrayAdapter);
+
+                spPraticen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i(logTag, "Clique détecté sur l'élement " + position + "de la liste");
+                        praticienSelect = listePraticiens.get(position).getPra_num();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
             }
         };
 
         Response.ErrorListener ecouteurErreur = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(SaisieRvActivity.this, "Une erreur est survenue, veuillez réessayer", Toast.LENGTH_LONG).show();
+                Log.e(logTag, error.getMessage());
             }
         };
 
-        return null;
+        Request<JSONArray> requete = new JsonArrayRequest(Request.Method.GET, url, null, ecouteurReponse, ecouteurErreur);
+        RequestQueue fileRequete = Volley.newRequestQueue(SaisieRvActivity.this);
+        fileRequete.add(requete);
+
+        return listePraticiens;
     }
 
-    public void validerSaisie(View view){
-        Toast.makeText(this, "Valider", Toast.LENGTH_LONG).show();
+    public void saisirEchantillonsOfferts(View view){
+
+    }
+
+    public void validerSaisie(View view) throws JSONException {
+
+        if( dateSelect != null && spPraticen.getSelectedItem() != null && spMotif.getSelectedItem() != null && etBilan.getText().toString() != "" && spCoefConfiance.getSelectedItem() != null ){
+            String url = "http://172.20.50.19:5000/rapports";
+
+            Response.Listener ecouteurReponse = new Response.Listener() {
+                @Override
+                public void onResponse(Object response) {
+                    Toast.makeText(SaisieRvActivity.this, "Le rapport à bien été créer", Toast.LENGTH_LONG);
+                }
+            };
+
+            Response.ErrorListener ecouteurErreur = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(SaisieRvActivity.this, "Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
+                    Log.e(logTag, "Erreur HTTP : " + error.getMessage());
+                }
+            };
+
+            JSONObject objetJSON = new JSONObject();
+            objetJSON.put("matricule", Session.getLeVisiteur().getMatricule())
+                    .put("praticien", praticienSelect)
+                    .put("visite", dateSelect)
+                    .put("bilan", etBilan.getText().toString())
+                    .put("motif", spMotif.getSelectedItem())
+                    .put("coef_confiance", spCoefConfiance.getSelectedItem());
+
+            Request<JSONObject> requete = new JsonObjectRequest(
+                    Request.Method.POST,
+                    url,
+                    objetJSON,
+                    ecouteurReponse,
+                    ecouteurErreur
+            );
+            RequestQueue fileRequete = Volley.newRequestQueue(SaisieRvActivity.this);
+            fileRequete.add(requete);
+        }
+        else{
+            Toast.makeText(this, "Tous les champs doivent être complétés.", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void annuler(View view){
+        Toast.makeText(this, "Annulation... le rapport de visite n'a pas été enregistré.", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(SaisieRvActivity.this, MenuRVActivity.class);
         startActivity(intent);
     }
