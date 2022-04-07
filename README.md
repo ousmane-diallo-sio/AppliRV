@@ -5,7 +5,7 @@ Cette application est basée sur le contexte GSB et exploite la base de données
 - https://github.com/ousmane-diallo-sio/GSB-RV-Visiteur-Serveur/
 
 
-<br>Ce projet réponds aux cas d’utilisation suivants :
+<br>**Ce projet réponds aux cas d’utilisation suivants :**
 - S'authentifier
 - Consulter un rapport de visite
 - Saisir un rapport de visite
