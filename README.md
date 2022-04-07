@@ -15,7 +15,6 @@ Cette application est basée sur le contexte GSB et exploite la base de données
 | MainActivity | MenuRvActivity | ListeRvActivity |
 | :----------: | :------------: | :-------------: |
 | ![](documents/activity-main.jpg) | ![](documents/activity-menu.jpg) | ![](documents/activity-liste-rv.jpg)
-<br>
 
 ### Diagramme de navigation
 
@@ -97,6 +96,8 @@ Lors de la consultation d’un rapport de visite, toutes les informations qui lu
 Tous les champs doivent être renseignés.
   
 ### Modélisation de la base de donnée
+
+![](documents/modele-applirv.jpg)
 
 
 ### Contexte GSB
