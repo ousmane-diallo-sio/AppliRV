@@ -10,6 +10,13 @@ Cette application est basée sur le contexte GSB et exploite la base de données
 - Consulter un rapport de visite
 - Saisir un rapport de visite
 
+### Captures d'écrans de l'application
+
+| MainActivity | MenuRvActivity | ListeRvActivity |
+| :----------: | :------------: | :-------------: |
+| ![](documents/activity-main.jpg) | ![](documents/activity-menu.jpg) | ![](documents/activity-liste-rv.jpg)
+<br>
+
 ### Diagramme de navigation
 
 ![](documents/navigation-applirv.jpg)
