@@ -10,12 +10,13 @@ public class RapportVisite {
     String pra_prenom;
     String pra_ville;
     int rap_coef_confiance;
+    String rap_date_redaction;
 
     public RapportVisite(){
 
     }
 
-    public RapportVisite(int rap_num, String rap_bilan, String pra_cp, String pra_nom, String rap_date_visite, String pra_prenom, String pra_ville, int rap_coef_confiance){
+    public RapportVisite(int rap_num, String rap_bilan, String pra_cp, String pra_nom, String rap_date_visite, String pra_prenom, String pra_ville, int rap_coef_confiance, String rap_date_redaction){
         this.rap_num = rap_num;
         this.rap_bilan = rap_bilan;
         this.pra_cp = pra_cp;
@@ -24,6 +25,7 @@ public class RapportVisite {
         this.pra_prenom = pra_prenom;
         this.pra_ville = pra_ville;
         this.rap_coef_confiance = rap_coef_confiance;
+        this.rap_date_redaction = rap_date_redaction;
     }
 
 
@@ -91,6 +93,13 @@ public class RapportVisite {
         this.rap_coef_confiance = rap_coef_confiance;
     }
 
+    public String getRap_date_redaction() {
+        return rap_date_redaction;
+    }
+
+    public void setRap_date_redaction(String rap_date_redaction) {
+        this.rap_date_redaction = rap_date_redaction;
+    }
 
     @Override
     public String toString() {

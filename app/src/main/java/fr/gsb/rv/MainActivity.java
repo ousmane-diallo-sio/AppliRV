@@ -175,10 +175,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error){
-                Log.e(logTag, "Erreur HTTP : " + error.toString());
+                if(error.networkResponse == null){
+                    Log.e(logTag, "Erreur HTTP : " + error.toString());
+                    Toast.makeText(MainActivity.this, "Le serveur est injoignable. Réessayez plus tard...", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.e(logTag, "Erreur HTTP : [" + error.networkResponse.statusCode + "] " + error.toString());
+                    Toast.makeText(MainActivity.this, "Echec à la connexion. Réessayez...", Toast.LENGTH_LONG).show();
+                }
                 MainActivity.this.annuler(view);
-                Toast.makeText(MainActivity.this, "Echec à la connexion. Réessayez...", Toast.LENGTH_LONG).show();
-                //Log.i("GSB_MAIN_ACTIVITY", "seConnecter() : Connexion Nok.");
             }
         };
 

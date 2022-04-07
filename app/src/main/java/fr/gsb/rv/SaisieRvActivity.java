@@ -1,11 +1,14 @@
 package fr.gsb.rv;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.VoiceInteractor;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +54,9 @@ public class SaisieRvActivity extends AppCompatActivity {
     String dateSelect;
     int praticienSelect;
 
+    ArrayList<String> listeMedicamentsOfferts = new ArrayList<>();
+    ArrayList<Integer> listeNbMedicamentsOfferts = new ArrayList<>();
+
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +83,7 @@ public class SaisieRvActivity extends AppCompatActivity {
             }
         };
 
-        String[] motifs = {"Actualisation", "Périodicité", "Sollicitation praticien"};
+        String[] motifs = {"Actualisation", "Nouveauté", "Sollicitation praticien", "Remontage"};
 
         ArrayAdapter<String> motifArrayAdapter = new ArrayAdapter<String>(SaisieRvActivity.this, android.R.layout.simple_spinner_item, motifs);
         motifArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -122,6 +128,23 @@ public class SaisieRvActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                listeMedicamentsOfferts = data.getExtras().getStringArrayList("medicamentsOfferts");
+                listeNbMedicamentsOfferts = data.getExtras().getIntegerArrayList("nbMedicamentsOfferts");
+
+                Log.i(logTag, "Résultat final med : " + listeMedicamentsOfferts.toString());
+                Log.i(logTag, "Résultat final nb med : " + listeNbMedicamentsOfferts.toString());
+            }
+        }
+
+    }
+
+
     @SuppressLint("NewApi")
     public void selectDateVisite(View view){
         LocalDate ajd = LocalDate.now();
@@ -133,6 +156,7 @@ public class SaisieRvActivity extends AppCompatActivity {
         new DatePickerDialog(this, ecouteurDate, annee, mois, jour).show();
 
     }
+
 
     public ArrayList<Praticien> getPraticiens(){
         ArrayList<Praticien> listePraticiens = new ArrayList<Praticien>();
@@ -154,7 +178,7 @@ public class SaisieRvActivity extends AppCompatActivity {
                         );
 
                         listePraticiens.add(praticien);
-                        Log.i(logTag, praticien.toString());
+                        //Log.i(logTag, praticien.toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -167,7 +191,7 @@ public class SaisieRvActivity extends AppCompatActivity {
                 spPraticen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.i(logTag, "Clique détecté sur l'élement " + position + "de la liste");
+                        //Log.i(logTag, "Clique détecté sur l'élement " + position + "de la liste");
                         praticienSelect = listePraticiens.get(position).getPra_num();
                     }
 
@@ -195,9 +219,11 @@ public class SaisieRvActivity extends AppCompatActivity {
     }
 
     public void saisirEchantillonsOfferts(View view){
-
+        Intent intent = new Intent(this, SaisieEchantActivity.class);
+        startActivityForResult(intent, 1);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void validerSaisie(View view) throws JSONException {
 
         if( dateSelect != null && spPraticen.getSelectedItem() != null && spMotif.getSelectedItem() != null && etBilan.getText().toString() != "" && spCoefConfiance.getSelectedItem() != null ){
@@ -207,6 +233,7 @@ public class SaisieRvActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Object response) {
                     Toast.makeText(SaisieRvActivity.this, "Le rapport à bien été créer", Toast.LENGTH_LONG);
+                    Log.i(logTag, "Réponse HTTP : " + response.toString());
                 }
             };
 
@@ -224,7 +251,8 @@ public class SaisieRvActivity extends AppCompatActivity {
                     .put("visite", dateSelect)
                     .put("bilan", etBilan.getText().toString())
                     .put("motif", spMotif.getSelectedItem())
-                    .put("coef_confiance", spCoefConfiance.getSelectedItem());
+                    .put("coef_confiance", spCoefConfiance.getSelectedItem())
+                    .put("date_redaction", LocalDate.now());
 
             Request<JSONObject> requete = new JsonObjectRequest(
                     Request.Method.POST,
@@ -235,6 +263,9 @@ public class SaisieRvActivity extends AppCompatActivity {
             );
             RequestQueue fileRequete = Volley.newRequestQueue(SaisieRvActivity.this);
             fileRequete.add(requete);
+
+            //String urlMedicaments = String.format("http://172.20.50.19:5000/rapports/echantillons/%s%s", Session.getLeVisiteur().getMatricule(), 10 /*num du dernier rapport*/);
+
         }
         else{
             Toast.makeText(this, "Tous les champs doivent être complétés.", Toast.LENGTH_LONG).show();

@@ -136,6 +136,7 @@ public class ListeRvActivity extends AppCompatActivity {
                         rapportVisite.setPra_prenom(element.getString("pra_prenom"));
                         rapportVisite.setPra_ville(element.getString("pra_ville"));
                         rapportVisite.setRap_coef_confiance(element.getInt("rap_coef_confiance"));
+                        rapportVisite.setRap_date_redaction(element.getString("rap_date_redaction"));
 
                         listeRapports.add(rapportVisite);
 
