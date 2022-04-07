@@ -10,8 +10,11 @@ Cette application est basée sur le contexte GSB et exploite la base de données
 - Consulter un rapport de visite
 - Saisir un rapport de visite
 
+### Diagramme de navigation
 
-### Description des cas d’utilisations :
+![](documents/navigation-applirv.jpg)
+
+### Description des cas d’utilisations
 
 | **S’authentifier** | 
 | :------------- | 
@@ -86,10 +89,10 @@ Lors de la consultation d’un rapport de visite, toutes les informations qui lu
 | **Contraintes :** <br>
 Tous les champs doivent être renseignés.
   
-## Modélisation de la base de donnée :
+### Modélisation de la base de donnée
 
 
-## Contexte GSB :
+### Contexte GSB
 
 Ce projet s’appuie sur le contexte GSB. Galaxy Swiss Bourdin est un laboratoire pharmaceutique dont l’activité est constituée par la production et la distribution de médicaments ainsi que par des visites médicales. 
 L’objectif de l’entreprise GSB est d’optimiser son activité à travers l’utilisation de l’informatique. 
