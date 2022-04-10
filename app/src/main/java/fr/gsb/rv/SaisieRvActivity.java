@@ -57,6 +57,8 @@ public class SaisieRvActivity extends AppCompatActivity {
     ArrayList<String> listeMedicamentsOfferts = new ArrayList<>();
     ArrayList<Integer> listeNbMedicamentsOfferts = new ArrayList<>();
 
+    int numRapport;
+
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,14 +155,14 @@ public class SaisieRvActivity extends AppCompatActivity {
         int mois = ajd.getMonthValue();
         int annee = ajd.getYear();
 
-        new DatePickerDialog(this, ecouteurDate, annee, mois, jour).show();
+        new DatePickerDialog(this, ecouteurDate, annee, mois -1, jour).show();
 
     }
 
 
     public ArrayList<Praticien> getPraticiens(){
         ArrayList<Praticien> listePraticiens = new ArrayList<Praticien>();
-        String url = "http://172.20.50.19:5000/praticiens";
+        String url = "http://192.168.1.161:5000/praticiens";
 
         Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>(){
 
@@ -227,13 +229,41 @@ public class SaisieRvActivity extends AppCompatActivity {
     public void validerSaisie(View view) throws JSONException {
 
         if( dateSelect != null && spPraticen.getSelectedItem() != null && spMotif.getSelectedItem() != null && etBilan.getText().toString() != "" && spCoefConfiance.getSelectedItem() != null ){
-            String url = "http://172.20.50.19:5000/rapports";
+            String url = "http://192.168.1.161:5000/rapports";
 
-            Response.Listener ecouteurReponse = new Response.Listener() {
+            Response.Listener ecouteurReponse = new Response.Listener<JSONObject>() {
+
                 @Override
-                public void onResponse(Object response) {
-                    Toast.makeText(SaisieRvActivity.this, "Le rapport à bien été créer", Toast.LENGTH_LONG);
-                    Log.i(logTag, "Réponse HTTP : " + response.toString());
+                public void onResponse(JSONObject response) {
+                    try {
+                        SaisieRvActivity.this.numRapport = response.getInt("rap_num");
+                        Toast.makeText(SaisieRvActivity.this, "Le rapport n°" + numRapport + " à bien été créer", Toast.LENGTH_LONG).show();
+                        Log.i(logTag, "Réponse HTTP : " + response.toString());
+
+                        if(listeMedicamentsOfferts.size() != 0){
+                            String urlMedicaments = String.format("http://192.168.1.161:5000/rapports/echantillons/%s/%s", Session.getLeVisiteur().getMatricule(), numRapport);
+
+                            Response.ErrorListener ecouteurErreurMed = new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.e(logTag, error.toString());
+                                }
+                            };
+
+                            JSONObject objetJsonMed = new JSONObject();
+                            for(int i=0; i<listeMedicamentsOfferts.size(); i++){
+                                objetJsonMed.put(listeMedicamentsOfferts.get(i), listeNbMedicamentsOfferts.get(i));
+                            }
+
+                            Request<JSONObject> requeteMed = new JsonObjectRequest(Request.Method.POST, urlMedicaments, objetJsonMed, null, ecouteurErreurMed);
+                            RequestQueue fileRequeteMed = Volley.newRequestQueue(SaisieRvActivity.this);
+                            fileRequeteMed.add(requeteMed);
+
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
 
@@ -241,7 +271,7 @@ public class SaisieRvActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(SaisieRvActivity.this, "Une erreur est survenue, veuillez réessayer", Toast.LENGTH_SHORT).show();
-                    Log.e(logTag, "Erreur HTTP : " + error.getMessage());
+                    Log.e(logTag, "Erreur HTTP : " + error.toString());
                 }
             };
 
@@ -263,8 +293,6 @@ public class SaisieRvActivity extends AppCompatActivity {
             );
             RequestQueue fileRequete = Volley.newRequestQueue(SaisieRvActivity.this);
             fileRequete.add(requete);
-
-            //String urlMedicaments = String.format("http://172.20.50.19:5000/rapports/echantillons/%s%s", Session.getLeVisiteur().getMatricule(), 10 /*num du dernier rapport*/);
 
         }
         else{

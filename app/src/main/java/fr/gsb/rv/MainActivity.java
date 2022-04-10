@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         //Log.i("GSB_MAIN_ACTIVITY", mdp);
 
         String matricule = URLEncoder.encode(id, "UTF-8");
-        String url = String.format("http://172.20.50.19:5000/visiteurs/%s/%s", id, mdp);
+        String url = String.format("http://192.168.1.161:5000/visiteurs/%s/%s", id, mdp);
 
 
         Response.Listener<JSONObject> ecouteurReponse = new Response.Listener<JSONObject>(){

@@ -115,7 +115,7 @@ public class ListeRvActivity extends AppCompatActivity {
 
 
     public void getRapports(){
-        String url = String.format("http://172.20.50.19:5000/rapports/%s/%s/%s", Session.getLeVisiteur().getMatricule(), numMoisSelectionne, anneeSelectionne);
+        String url = String.format("http://192.168.1.161:5000/rapports/%s/%s/%s", Session.getLeVisiteur().getMatricule(), numMoisSelectionne, anneeSelectionne);
         Log.i(logTag, "Requete HTTP effectuée : " + url);
 
         Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>() {
@@ -127,7 +127,6 @@ public class ListeRvActivity extends AppCompatActivity {
                     try {
                         JSONObject element = response.getJSONObject(i);
                         RapportVisite rapportVisite = new RapportVisite();
-
                         rapportVisite.setRap_num(Integer.parseInt(element.getString("rap_num")));
                         rapportVisite.setRap_bilan(element.getString("rap_bilan"));
                         rapportVisite.setPra_cp(element.getString("pra_cp"));
@@ -181,7 +180,7 @@ public class ListeRvActivity extends AppCompatActivity {
         Response.ErrorListener ecouteurErreur = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(logTag, "Erreur HTTP : " + error.toString());
+                Log.e(logTag, "Erreur HTTP : [" + error.networkResponse.statusCode + "] " + error.toString());
                 TextView txt = new TextView(ListeRvActivity.this);
                 txt.setText("Aucun résultat...");
                 txt.setGravity(Gravity.CENTER);

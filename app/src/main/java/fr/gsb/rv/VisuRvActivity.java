@@ -7,8 +7,6 @@ import android.widget.TextView;
 
 public class VisuRvActivity extends AppCompatActivity {
 
-    TextView tvDonnees;
-
     int rap_num;
     String rap_bilan;
     String pra_cp;
@@ -62,4 +60,8 @@ public class VisuRvActivity extends AppCompatActivity {
         tvCoefConfiance.setText(tvCoefConfiance.getText() + Integer.toString(rap_coef_confiance));
 
     }
+
+
+
+
 }

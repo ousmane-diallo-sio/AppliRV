@@ -6,6 +6,9 @@
         <entry key="..\:/SLAM/android-studio/rv/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/SLAM/android-studio/rv/app/src/main/res/layout/activity_menu_rv.xml" value="0.33" />
         <entry key="..\:/SLAM/android-studio/rv/app/src/main/res/layout/activity_recherche_rv.xml" value="0.33" />
+        <entry key="..\:/SLAM/android-studio/rv/app/src/main/res/layout/activity_saisie_echant.xml" value="0.1884498480243161" />
+        <entry key="..\:/SLAM/android-studio/rv/app/src/main/res/layout/activity_visu_rv.xml" value="0.33" />
+        <entry key="..\:/SLAM/android-studio/rv/app/src/main/res/layout/item_medicament.xml" value="0.33" />
       </map>
     </option>
   </component>

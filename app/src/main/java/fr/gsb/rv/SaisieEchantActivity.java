@@ -136,7 +136,7 @@ public class SaisieEchantActivity extends AppCompatActivity {
 
 
     public ArrayList<Medicament> getMedicaments(){
-        String url = "http://172.20.50.19:5000/medicaments";
+        String url = "http://192.168.1.161:5000/medicaments";
 
         Response.Listener<JSONArray> ecouteurReponse = new Response.Listener<JSONArray>() {
             @Override
